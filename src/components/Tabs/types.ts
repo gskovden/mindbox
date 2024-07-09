@@ -1,5 +1,5 @@
 import { ReactElement, ReactNode } from "react"
-import { Todo } from "../../types/types"
+import { Todo } from "types/types"
 
 export interface TabProps {
   label: string

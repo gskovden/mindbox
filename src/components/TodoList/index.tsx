@@ -1,4 +1,4 @@
-import { Todo } from '../../types/types'
+import { Todo } from 'types/types'
 import './index.css'
 
 interface TodoListProps {
@@ -7,7 +7,7 @@ interface TodoListProps {
 }
 
 const TodoList = ({ todos, setTodos }: TodoListProps) => {
-  const handleIsDone = (index: number) => {
+  const onChangeCompleted = (index: number) => {
     const newTodos = [...todos]
     const newTodo = {
       ...todos[index],
@@ -17,14 +17,14 @@ const TodoList = ({ todos, setTodos }: TodoListProps) => {
     setTodos(newTodos)
   }
   return (
-    <ul className='todoList'>
+    <ul className='todoList' data-testid='todoList'>
       {todos.map((todo, index) => (
         <li key={index} className='todos'>
           <label className='container'>
-            <input type='checkbox' checked={todo.is_completed} onChange={() => handleIsDone(index)} />
+            <input type='checkbox' checked={todo.is_completed} onChange={() => onChangeCompleted(index)} />
             <span className='checkmark'></span>
           </label>
-          <p className={todo.is_completed ? 'todoCompleted' : 'todo'}>
+          <p data-testId='todo' className={todo.is_completed ? 'todoCompleted' : 'todo'}>
             {todo.input_value}
           </p>
         </li>

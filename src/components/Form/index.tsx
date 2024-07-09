@@ -1,7 +1,7 @@
 import { BaseSyntheticEvent } from 'react'
 import './index.css'
 import { IconChevronDown } from '@tabler/icons-react'
-import { Todo } from '../../types/types'
+import { Todo } from 'types/types'
 
 interface FormProps {
   todo: Todo
@@ -25,13 +25,18 @@ const Form = ({ todo, todos, setTodo, setTodos }: FormProps) => {
   return (
     <form onSubmit={handleAddTodo} className='todoForm'>
       <button 
+        data-testid='button'
         className='todoButton'
         disabled={!todo.input_value}
         type='submit'
       >
         <IconChevronDown />
       </button>
-      <input 
+      <input
+        id='todo'
+        type='text'
+        autoFocus
+        data-testid='input_value'
         className='todoInput'
         placeholder='What needs to be done?'
         value={todo.input_value}

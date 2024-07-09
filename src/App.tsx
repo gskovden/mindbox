@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import './index.css'
-import { Todo } from './types/types'
-import TodoList from './components/TodoList'
-import Form from "./components/Form"
-import TabList from './components/Tabs/TabList'
-import TabItem from './components/Tabs/TabItem'
+import { Todo } from 'types/types'
+import TodoList from 'components/TodoList'
+import Form from "components/Form"
+import TabList from 'components/Tabs/TabList'
+import TabItem from 'components/Tabs/TabItem'
 
 function App() {
   const [todo, setTodo] = useState<Todo>({
@@ -18,7 +18,7 @@ function App() {
 
   return (
     <div className="App">
-      <p className="title">todos</p>
+      <h1 className="title">todos</h1>
       <div className="box">
         <Form todo={todo} todos={todos} setTodo={setTodo} setTodos={setTodos} />
         <TabList activeTabIndex={0} todos={todos} setTodos={setTodos}>
