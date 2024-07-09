@@ -11,3 +11,28 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.App {
+  background-color: rgb(245, 245, 245);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+}
+
+.title {
+  color: rgb(230, 218, 217);
+  font-size: 100px;
+  font-weight: 100;
+  margin: 0;
+}
+
+.box {
+  background-color: #fff;
+  width: 600px;
+  height: 410px;
+  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+  margin-top: 20px;
+}
