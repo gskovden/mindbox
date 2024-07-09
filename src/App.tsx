@@ -13,29 +13,25 @@ function App() {
   })
   const [todos, setTodos] = useState<Todo[]>([])
 
-  const handleClearCompleted = () => {
-    const notCompletedTodos = todos.filter((todo) => !todo.is_completed)
-    setTodos(notCompletedTodos);
-  }
-
-  const quantityItemsLeft = todos.filter((todo) => !todo.is_completed).length
+  const activeTodos = todos.filter((todo) => !todo.is_completed)
+  const completedTodos = todos.filter((todo) => todo.is_completed)
 
   return (
     <div className="App">
       <p className="title">todos</p>
       <div className="box">
         <Form todo={todo} todos={todos} setTodo={setTodo} setTodos={setTodos} />
-          <TabList activeTabIndex={0} quantityItemsLeft={quantityItemsLeft} handleClearCompleted={handleClearCompleted}>
-            <TabItem label='All'>
-              <TodoList todos={todos} setTodos={setTodos} />
-            </TabItem>
-            <TabItem label='Active'>
-              <TodoList todos={todos.filter((todo) => !todo.is_completed)} setTodos={setTodos} />
-            </TabItem>
-            <TabItem label='Completed'>
-              <TodoList todos={todos.filter((todo) => todo.is_completed)} setTodos={setTodos} />
-            </TabItem>
-          </TabList>
+        <TabList activeTabIndex={0} todos={todos} setTodos={setTodos}>
+          <TabItem label='All'>
+            <TodoList todos={todos} setTodos={setTodos} />
+          </TabItem>
+          <TabItem label='Active'>
+            <TodoList todos={activeTodos} setTodos={setTodos} />
+          </TabItem>
+          <TabItem label='Completed'>
+            <TodoList todos={completedTodos} setTodos={setTodos} />
+          </TabItem>
+        </TabList>
       </div>
     </div>
   )

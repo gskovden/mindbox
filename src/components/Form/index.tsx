@@ -18,6 +18,10 @@ const Form = ({ todo, todos, setTodo, setTodos }: FormProps) => {
     setTodo({input_value: '', is_completed: false})
   }
 
+  const onChange = (value: string) => {
+    setTodo({ input_value: value, is_completed: false })
+  }
+
   return (
     <form onSubmit={handleAddTodo} className='todoForm'>
       <button 
@@ -31,7 +35,7 @@ const Form = ({ todo, todos, setTodo, setTodos }: FormProps) => {
         className='todoInput'
         placeholder='What needs to be done?'
         value={todo.input_value}
-        onChange={(e) => setTodo({ input_value: e.target.value, is_completed: false })}
+        onChange={(e) => onChange(e.target.value)}
       />
     </form>
   )

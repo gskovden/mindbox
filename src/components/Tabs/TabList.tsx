@@ -3,7 +3,7 @@ import { TabListProps, TabProps } from './types'
 import TabItem from './TabItem'
 import './index.css'
 
-const TabList = ({ children, activeTabIndex = 0, quantityItemsLeft, handleClearCompleted }: TabListProps) => {
+const TabList = ({ children, activeTabIndex = 0, todos, setTodos }: TabListProps) => {
   const [activeTab, setActiveTab] = useState(activeTabIndex)
   const handleTabClick = (index: number) => {
     setActiveTab(index)
@@ -12,6 +12,13 @@ const TabList = ({ children, activeTabIndex = 0, quantityItemsLeft, handleClearC
     (child): child is ReactElement<TabProps> =>
       React.isValidElement(child) && child.type === TabItem
   )
+
+  const handleClearCompleted = () => {
+    const notCompletedTodos = todos.filter((todo) => !todo.is_completed)
+    setTodos(notCompletedTodos);
+  }
+
+  const quantityItemsLeft = todos.filter((todo) => !todo.is_completed).length
 
   return (
     <div>
