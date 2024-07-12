@@ -2,29 +2,30 @@ import { Todo } from 'types/types'
 import './index.css'
 
 interface TodoListProps {
-  todos: Todo[]
-  setTodos: (todos: Todo[]) => void
+  mappedTodos: Todo[]
+  todos?: Todo[]
+  onChangeCompleted: (index: number) => void
 }
 
-const TodoList = ({ todos, setTodos }: TodoListProps) => {
-  const onChangeCompleted = (index: number) => {
-    const newTodos = [...todos]
-    const newTodo = {
-      ...todos[index],
-      is_completed: !newTodos[index].is_completed,
+const TodoList = ({ todos, mappedTodos, onChangeCompleted }: TodoListProps) => {
+  const onChange = (row: Todo, index: number) => {
+    if (todos) {
+      const todosIndex = todos.findIndex((todo) => todo === row)
+      onChangeCompleted(todosIndex)
+    } else {
+      onChangeCompleted(index)
     }
-    newTodos[index] = newTodo
-    setTodos(newTodos)
   }
+
   return (
-    <ul className='todoList' data-testid='todoList'>
-      {todos.map((todo, index) => (
-        <li key={index} className='todos'>
-          <label className='container'>
-            <input type='checkbox' checked={todo.is_completed} onChange={() => onChangeCompleted(index)} />
+    <ul className='todoList'>
+      {mappedTodos.map((todo, index) => (
+        <li key={todo.id} className='todos'>
+          <label className='container' >
+            <input type='checkbox' aria-label='checkbox' checked={todo.is_completed} onChange={() => onChange(todo, index)} />
             <span className='checkmark'></span>
           </label>
-          <p data-testId='todo' className={todo.is_completed ? 'todoCompleted' : 'todo'}>
+          <p className={todo.is_completed ? 'todoCompleted' : 'todo'} aria-label='todo'>
             {todo.input_value}
           </p>
         </li>

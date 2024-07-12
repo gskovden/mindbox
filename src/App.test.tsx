@@ -1,81 +1,92 @@
 import { render, screen } from '@testing-library/react'
-import App from './App'
 import userEvent from '@testing-library/user-event'
+import App from './App'
 
 describe('TEST APP', () => {
-  test("should render correctly", () => {
+  test('should render correctly', () => {
     render(<App />)
     const headingElement = screen.getByRole("heading", { level: 1 })
     const inputElement = screen.getByPlaceholderText(/what needs to be done?/i)
-    const buttonElement = screen.queryByTestId('button')
-
+    const buttonElement = screen.getByRole('button', { name: /submit/i })
     expect(headingElement).toBeInTheDocument()
     expect(inputElement).toBeInTheDocument()
-    expect(inputElement).toHaveValue("")
+    expect(inputElement).toHaveValue('')
     expect(inputElement).toHaveFocus()
     expect(buttonElement).toBeInTheDocument()
     expect(buttonElement).toBeDisabled()
   })
 
-  test('INPUT EVENT', () => {
-    render(<App />)
-    const input = screen.getByPlaceholderText(/what needs to be done?/i)
-    expect(screen.queryByTestId('input_value')).toContainHTML('')
-    userEvent.type(input, 'test')
-    expect(screen.queryByTestId('input_value')).toContainHTML('test')
-  })
-
-  test("should enable the button once the input field has a value", () => {
+  test('should enable the button once the input field has a value', async () => {
     render(<App />)
     const inputElement = screen.getByPlaceholderText(/what needs to be done?/i)
-    const buttonElement = screen.queryByTestId('button')
-    userEvent.type(inputElement, "walk the cat")
-    expect(inputElement).toHaveValue("walk the cat")
+    const buttonElement = screen.getByRole('button', { name: /submit/i })
+    await userEvent.type(inputElement, 'test')
+    expect(inputElement).toHaveValue('test')
     expect(buttonElement).toBeEnabled()
   })
 
-  test("should disable the button once the input field is empty", () => {
+  test('should disable the button once the input field is empty', async () => {
     render(<App />)
     const inputElement = screen.getByPlaceholderText(/what needs to be done?/i)
-    const buttonElement = screen.queryByTestId('button')
-    userEvent.type(inputElement, "walk the cat")
+    const buttonElement = screen.getByRole('button', { name: /submit/i })
+    await userEvent.type(inputElement, 'test')
     expect(buttonElement).toBeEnabled()
-    userEvent.clear(inputElement)
+    await userEvent.clear(inputElement)
     expect(buttonElement).toBeDisabled()
   })
 
-  // test("should clear the input value once the submit button is clicked", () => {
-  //   render(<App />);
-  //   const inputElement = screen.getByPlaceholderText(/what needs to be done?/i)
-  //   const buttonElement = screen.queryByTestId('button')
-  //   userEvent.type(inputElement, "walk the cat")
-  //   userEvent.click(buttonElement)
-  //   expect(inputElement).toHaveValue("")
-  // })
+  test('should clear the input value once the submit button is clicked', async () => {
+    render(<App />)
+    const inputElement = screen.getByPlaceholderText(/what needs to be done?/i)
+    const buttonElement = screen.getByRole('button', { name: /submit/i })
+    await userEvent.type(inputElement, 'test')
+    expect(inputElement).toHaveValue('test')
+    await userEvent.click(buttonElement)
+    expect(inputElement).toHaveValue('')
+    expect(buttonElement).toBeDisabled()
+  })
 
-  // test("should list the todos submited", async () => {
-  //   render(<App />)
-  //   const inputElement = screen.getByPlaceholderText(/what needs to be done?/i)
-  //   const buttonElement = screen.queryByTestId('button')
-  //   userEvent.type(inputElement, "walk the cat")
-  //   userEvent.click(buttonElement)
-  //   userEvent.type(inputElement, "walk the dog")
-  //   userEvent.click(buttonElement)
-  //   const todos = screen.queryByTestId("todoList")
-  //   expect(todos[0]).toHaveTextContent("walk the cat")
-  //   expect(todos[1]).toHaveTextContent("walk the dog")
-  //   expect(todos).toHaveLength(2)
-  // })
+  test('should change className when checkbox is clicked', async () => {
+    render(<App />)
+    const inputElement = screen.getByPlaceholderText(/what needs to be done?/i)
+    const buttonElement = screen.getByRole('button', { name: /submit/i })
+    await userEvent.type(inputElement, 'test 1')
+    await userEvent.click(buttonElement)
+    await userEvent.type(inputElement, 'test 2')
+    await userEvent.click(buttonElement)
+    const todoArr = screen.getAllByLabelText('todo')
+    expect(todoArr[0]).toHaveClass('todo')
+    expect(todoArr[1]).toHaveClass('todo')
+    const checkboxArr = screen.getAllByLabelText('checkbox')
+    await userEvent.click(checkboxArr[0])
+    expect(todoArr[0]).toHaveClass('todoCompleted')
+    expect(todoArr[1]).toHaveClass('todo')
+    await userEvent.click(checkboxArr[1])
+    expect(todoArr[1]).toHaveClass('todoCompleted')
+    await userEvent.click(checkboxArr[0])
+    await userEvent.click(checkboxArr[1])
+    expect(todoArr[0]).toHaveClass('todo')
+    expect(todoArr[1]).toHaveClass('todo')
+  })
 
-  // test("should remove a todo when its delete button is clicked", () => {
-  //   render(<App />);
-  //   const inputElement = screen.getByPlaceholderText(/what needs to be done?/i)
-  //   const buttonElement = screen.queryByTestId('button')
-  //   userEvent.type(inputElement, "walk the cat")
-  //   userEvent.click(buttonElement)
-  //   const todo = screen.queryByTestId("todoList")
-  //   const deleteButtonElement = screen.getByRole("button", { name: "delete" })
-  //   userEvent.click(deleteButtonElement)
-  //   expect(todo).not.toBeInTheDocument()
-  // })
+  test('should remove a todo when clear button is clicked', async () => {
+    render(<App />)
+    const inputElement = screen.getByPlaceholderText(/what needs to be done?/i)
+    const buttonElement = screen.getByRole('button', { name: /submit/i })
+    await userEvent.type(inputElement, 'test 1')
+    await userEvent.click(buttonElement)
+    await userEvent.type(inputElement, 'test 2')
+    await userEvent.click(buttonElement)
+    const todoArr = screen.getAllByLabelText('todo')
+    expect(todoArr[0]).toHaveTextContent('test 1')
+    expect(todoArr[1]).toHaveTextContent('test 2')
+    expect(todoArr).toHaveLength(2)
+    const checkboxArr = screen.getAllByLabelText('checkbox')
+    await userEvent.click(checkboxArr[0])
+    const clearCompletedButtonElement = screen.getByRole('button', { name: /clearcompleted/i })
+    await userEvent.click(clearCompletedButtonElement)
+    expect(screen.getAllByLabelText('todo')).toHaveLength(1)
+    expect(todoArr[1]).toBeInTheDocument()
+    expect(todoArr[0]).not.toBeInTheDocument()
+  })
 })

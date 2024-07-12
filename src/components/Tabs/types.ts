@@ -1,5 +1,4 @@
 import { ReactElement, ReactNode } from "react"
-import { Todo } from "types/types"
 
 export interface TabProps {
   label: string
@@ -9,6 +8,6 @@ export interface TabProps {
 export interface TabListProps {
   activeTabIndex: number
   children: ReactElement<TabProps> | ReactElement<TabProps>[]
-  todos: Todo[]
-  setTodos: (todos: Todo[]) => void
+  quantityItemsLeft: number
+  handleClearCompleted: () => void
 }
