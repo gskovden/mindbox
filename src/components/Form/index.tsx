@@ -16,11 +16,11 @@ const Form = ({ todo, todos, setTodo, setTodos }: FormProps) => {
   const handleAddTodo = (e: BaseSyntheticEvent) => {
     e.preventDefault()
     setTodos([...todos, todo])
-    setTodo({ id: uuidv4(), input_value: '', is_completed: false})
+    setTodo({ ...todo, id: uuidv4(), input_value: '' })
   }
 
   const onChange = (value: string) => {
-    setTodo({ id: uuidv4(), input_value: value, is_completed: false })
+    setTodo({ ...todo, input_value: value })
   }
 
   return (
@@ -35,11 +35,12 @@ const Form = ({ todo, todos, setTodo, setTodos }: FormProps) => {
       </button>
       <input
         type='text'
+        name='input_value'
         autoFocus
         className='todoInput'
         placeholder='What needs to be done?'
         value={todo.input_value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={e => onChange(e.target.value)}
       />
     </form>
   )

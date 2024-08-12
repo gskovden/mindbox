@@ -15,8 +15,8 @@ function App() {
   })
   const [todos, setTodos] = useState<Todo[]>([])
 
-  const activeTodos = todos.filter((todo) => !todo.is_completed)
-  const completedTodos = todos.filter((todo) => todo.is_completed)
+  const activeTodos = todos.filter(todo => !todo.is_completed)
+  const completedTodos = todos.filter(todo => todo.is_completed)
 
   const onChangeCompleted = (index: number) => {
     const newTodos = [...todos]    
@@ -29,13 +29,13 @@ function App() {
   }
 
   const handleClearCompleted = () => {
-    setTodos(todos.filter((todo) => !todo.is_completed))
+    setTodos(todos.filter(todo => !todo.is_completed))
   }
 
-  const quantityItemsLeft = todos.filter((todo) => !todo.is_completed).length
+  const quantityItemsLeft = todos.filter(todo => !todo.is_completed).length
 
   return (
-    <div className="App">
+    <main className="app">
       <h1 className="title">todos</h1>
       <div className="box">
         <Form todo={todo} todos={todos} setTodo={setTodo} setTodos={setTodos} />
@@ -51,7 +51,7 @@ function App() {
           </TabItem>
         </TabList>
       </div>
-    </div>
+    </main>
   )
 }
 

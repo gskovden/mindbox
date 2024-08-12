@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react'
+import { Children, isValidElement, ReactElement, useState } from 'react'
 import { TabListProps, TabProps } from './types'
 import TabItem from './TabItem'
 import './index.css'
@@ -8,9 +8,9 @@ const TabList = ({ children, activeTabIndex = 0, quantityItemsLeft, handleClearC
   const handleTabClick = (index: number) => {
     setActiveTab(index)
   }
-  const tabs = React.Children.toArray(children).filter(
+  const tabs = Children.toArray(children).filter(
     (child): child is ReactElement<TabProps> =>
-      React.isValidElement(child) && child.type === TabItem
+      isValidElement(child) && child.type === TabItem
   )
 
   return (
